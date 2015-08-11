@@ -1,17 +1,28 @@
 ﻿(function (angular) {
 
-    var controller = function ($http) {
-
-        var self = this, promise = $http({
-            url: 'api/Agents',
-            method: 'get'
-        })
+    var _agentsService, controller = function (agentsService, $scope) {
+        _agentsService = agentsService;
+        var self = this,
+            addNewAgent = function(agent)
+            {
+                self.agents.push(agent);
+                $scope.$applyAsync();
+            },
+            promise = agentsService.getAgents()
         .success(function(data)
         {
             self.agents = data;
         });
+
+        _agentsService.subscribe('newAgent', addNewAgent);
+
     };
 
-    angular.module('agents').controller('agentsController', ['$http', controller]);
+    controller.prototype.saveAgent = function () {
+        
+        _agentsService.createAgent(this.newAgent);
+    };
+
+    angular.module('agents').controller('agentsController', ['agentsService','$scope', controller]);
 
 }(window.angular));
