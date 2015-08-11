@@ -16,7 +16,7 @@
 
         _agentsService.subscribe('newAgent', addNewAgent);
 
-    };
+    }; 
 
     controller.prototype.saveAgent = function () {
         
