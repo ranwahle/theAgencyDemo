@@ -4,12 +4,23 @@
     <title></title>
     <script type="text/javascript" src="Scripts/angular.min.js"></script>
     <script src="app/app.js"></script>
+    <script src="app/services/agentsService.js"></script>
     <script src="app/controllers/angentsController.js"></script>
     
 </head>
 <body>
-    <div data-ng-controller="agentsController ">
+    <div data-ng-controller="agentsController as controller">
+        <ul>
+            <li data-ng-repeat="agent in controller.agents track by agent.ID">
+                <span data-ng-bind="agent.FullName"></span>
+            </li>
+        </ul>
+        <form name="newAgentForm" data-ng-submit="controller.saveAgent()">
+            <input type="text" data-ng-model="controller.newAgent.Id" placeholder="ID" />
+            <input type="text" data-ng-model="controller.newAgent.FullName" placeholder="Full name"/>
+            <button type="submit">Add Agent</button>
 
+        </form>
     </div>
 </body>
 </html>
