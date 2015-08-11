@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TheAgency.Models;
+using TheAgency.Web.Hubs;
 
 namespace TheAgency.Web.Controllers
 {
@@ -40,11 +42,13 @@ namespace TheAgency.Web.Controllers
                     {
                         StatusCode = HttpStatusCode.BadRequest
                         //ReasonPhrase = ModelState.
-                    });
+                    }); 
             }
             AgentRepository repository = new AgentRepository();
             repository.Add(agent);
-            //HttpResponseMessage response = Request.CreateResponse<Agent>
+            var context = GlobalHost.ConnectionManager.GetHubContext<AgentsHub>();
+            context.Clients.All.addNewAgent(agent);
+            //HttpResponseMessage response = RequesBt.CreateResponse<Agent>
             //    (HttpStatusCode.Created, agent);
 
             //return response;
